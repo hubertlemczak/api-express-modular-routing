@@ -67,10 +67,12 @@ filmsRouter.put('/:id', (req, res) => {
       .status(409)
       .json({ error: 'A film with the provided title already exists' });
   }
-  film.title = req.body.title;
-  film.director = req.body.director;
 
-  res.status(200).json({ film });
+  const updatedFilm = { ...film, ...req.body };
+  const index = films.indexOf(film);
+  films.splice(index, 1, updatedFilm);
+
+  res.status(200).json({ film: updatedFilm });
 });
 
 filmsRouter.patch('/:id', (req, res) => {
@@ -88,10 +90,12 @@ filmsRouter.patch('/:id', (req, res) => {
       .status(409)
       .json({ error: 'A film with the provided title already exists' });
   }
-  film.title = req.body.title || film.title;
-  film.director = req.body.director || film.director;
 
-  res.status(200).json({ film });
+  const updatedFilm = { ...film, ...req.body };
+  const index = films.indexOf(film);
+  films.splice(index, 1, updatedFilm);
+
+  res.status(200).json({ film: updatedFilm });
 });
 
 filmsRouter.delete('/:id', (req, res) => {

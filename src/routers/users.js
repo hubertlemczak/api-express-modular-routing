@@ -61,9 +61,12 @@ usersRouter.put('/:id', (req, res) => {
       .status(409)
       .json({ error: 'A user with the provided email already exists' });
   }
-  user.email = req.body.email;
 
-  res.status(200).json({ user });
+  const updatedUser = { ...user, ...req.body };
+  const index = users.indexOf(user);
+  users.splice(index, 1, updatedUser);
+
+  res.status(200).json({ user: updatedUser });
 });
 
 usersRouter.delete('/:id', (req, res) => {

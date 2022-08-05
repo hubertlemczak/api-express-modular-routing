@@ -61,11 +61,12 @@ booksRouter.put('/:id', (req, res) => {
       .status(409)
       .json({ error: 'A book with the provided title already exists' });
   }
-  book.title = req.body.title;
-  book.type = req.body.type;
-  book.author = req.body.author;
 
-  res.status(200).json({ book });
+  const updatedBook = { ...book, ...req.body };
+  const index = books.indexOf(book);
+  books.splice(index, 1, updatedBook);
+
+  res.status(200).json({ book: updatedBook });
 });
 
 booksRouter.patch('/:id', (req, res) => {
@@ -83,11 +84,12 @@ booksRouter.patch('/:id', (req, res) => {
       .status(409)
       .json({ error: 'A book with the provided title already exists' });
   }
-  book.title = req.body.title || book.title;
-  book.type = req.body.type || book.type;
-  book.author = req.body.author || book.author;
 
-  res.status(200).json({ book });
+  const updatedBook = { ...book, ...req.body };
+  const index = books.indexOf(book);
+  books.splice(index, 1, updatedBook);
+
+  res.status(200).json({ book: updatedBook });
 });
 
 booksRouter.delete('/:id', (req, res) => {
